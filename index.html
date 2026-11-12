@@ -1,0 +1,363 @@
+
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>بچه‌های فاطمه</title>
+
+<style>
+*{box-sizing:border-box}
+body{
+ margin:0;
+ font-family:Tahoma,Arial,sans-serif;
+ color:white;
+ background:#050505;
+}
+body:before{
+ content:"";
+ position:fixed;
+ inset:0;
+ background:url("logo.jpg") center center/contain no-repeat;
+ opacity:.13;
+ z-index:-1;
+ pointer-events:none;
+}
+header{
+ text-align:center;
+ padding:25px 15px;
+ background:rgba(0,0,0,.88);
+ border-bottom:2px solid #d20c16;
+}
+.logo{
+ width:125px;
+ height:125px;
+ object-fit:contain;
+ border-radius:50%;
+}
+h1{color:#ed1c24}
+header p{color:#bbb}
+nav{
+ display:flex;
+ justify-content:center;
+ flex-wrap:wrap;
+ gap:10px;
+ padding:14px;
+ background:#171717;
+ position:sticky;
+ top:0;
+ z-index:5;
+}
+nav a{
+ color:white;
+ text-decoration:none;
+ padding:9px 12px;
+ border-radius:6px;
+}
+nav a:hover{background:#bd1018}
+main{max-width:950px;margin:auto;padding:15px}
+section{
+ background:rgba(15,15,15,.94);
+ border:1px solid #4b171a;
+ border-radius:12px;
+ padding:20px;
+ margin:18px 0;
+}
+h2{color:#ed252b}
+input,textarea{
+ width:100%;
+ padding:13px;
+ margin:8px 0;
+ background:#242424;
+ color:white;
+ border:1px solid #555;
+ border-radius:7px;
+ font-family:inherit;
+}
+button{
+ background:#c91019;
+ color:white;
+ border:0;
+ padding:12px 20px;
+ border-radius:7px;
+ cursor:pointer;
+ font-family:inherit;
+}
+button:hover{background:#ed252b}
+.card{
+ background:#1b1b1b;
+ padding:17px;
+ border-radius:9px;
+ border:1px solid #444;
+ text-align:center;
+}
+.cards{
+ display:grid;
+ grid-template-columns:repeat(2,1fr);
+ gap:12px;
+}
+.post{
+ padding:12px;
+ border-bottom:1px solid #444;
+}
+.hidden{display:none}
+footer{
+ text-align:center;
+ padding:25px;
+ color:#aaa;
+ background:#111;
+ border-top:2px solid #c91019;
+}
+@media(min-width:650px){
+ .cards{grid-template-columns:repeat(3,1fr)}
+}
+</style>
+</head>
+
+<body>
+
+<header>
+<img src="logo.jpg" class="logo" alt="لوگوی بچه‌های فاطمه">
+<h1>بچه‌های فاطمه</h1>
+<p>پایگاه فرهنگی و رسانه‌ای هیئت</p>
+</header>
+
+<nav>
+<a href="#suggest">پیشنهادات</a>
+<a href="#about">معرفی هیئت</a>
+<a href="#programs">مراسم</a>
+<a href="#news">اخبار</a>
+<a href="#gallery">تصاویر</a>
+<a href="#videos">فیلم‌ها</a>
+<a href="#sounds">صوت‌ها</a>
+<a href="#live">پخش زنده</a>
+<a href="#contact">ارتباط با ما</a>
+<a href="#admin">مدیریت</a>
+</nav>
+
+<main>
+
+<!-- صندوق پیشنهادات در بالای صفحه -->
+<section id="suggest">
+<h2>صندوق پیشنهادات و انتقادات</h2>
+<p>پیشنهادها و انتقادات خود را بدون درج نام با ما در میان بگذارید.</p>
+
+<form id="suggestForm">
+<textarea id="suggestion" rows="5"
+placeholder="پیشنهاد یا انتقاد خود را بنویسید..." required></textarea>
+<button type="submit">ارسال پیشنهاد</button>
+</form>
+<p id="suggestMessage"></p>
+</section>
+
+<section id="about">
+<h2>معرفی هیئت</h2>
+<p>بچه‌های فاطمه؛ پایگاهی برای فعالیت‌های فرهنگی،
+مذهبی و رسانه‌ای.</p>
+</section>
+
+<section id="programs">
+<h2>برنامه‌ها و مراسم</h2>
+<div id="programList">برنامه‌ای ثبت نشده است.</div>
+</section>
+
+<section id="news">
+<h2>اخبار و اطلاعیه‌ها</h2>
+<div id="newsList">هنوز خبری منتشر نشده است.</div>
+</section>
+
+<section id="gallery">
+<h2>گالری تصاویر</h2>
+<div id="galleryList"></div>
+</section>
+
+<section id="videos">
+<h2>آرشیو فیلم‌ها</h2>
+<div id="videoList"></div>
+</section>
+
+<section id="sounds">
+<h2>آرشیو صوت‌ها</h2>
+<div id="soundList"></div>
+</section>
+
+<section id="live">
+<h2>پخش زنده</h2>
+<video id="liveVideo" controls
+style="width:100%;max-height:350px"></video>
+<p>بخش پخش زنده هیئت</p>
+</section>
+
+<section id="contact">
+<h2>ارتباط با ما</h2>
+<p>برای ارتباط با مجموعه از راه‌های ارتباطی هیئت استفاده کنید.</p>
+</section>
+
+<section id="admin">
+<h2>ورود مدیران</h2>
+<input type="password" id="password"
+placeholder="رمز مدیریت">
+<button onclick="login()">ورود به پنل</button>
+
+<div id="panel" class="hidden">
+
+<h2>پنل مدیریت</h2>
+
+<h3>پیشنهادهای ارسال‌شده</h3>
+<div id="suggestionList"></div>
+
+<h3>ثبت خبر</h3>
+<input id="newsTitle" placeholder="عنوان خبر">
+<textarea id="newsText" placeholder="متن خبر"></textarea>
+<button onclick="addNews()">انتشار خبر</button>
+
+<h3>ثبت برنامه مراسم</h3>
+<input id="programTitle" placeholder="عنوان برنامه">
+<textarea id="programText" placeholder="توضیحات برنامه"></textarea>
+<button onclick="addProgram()">ثبت برنامه</button>
+
+<h3>تغییر پس‌زمینه</h3>
+<input type="color" id="bgColor" value="#050505">
+<button onclick="changeBackground()">تغییر رنگ</button>
+
+<h3>تغییر رمز مدیریت</h3>
+<input type="password" id="newPassword"
+placeholder="رمز جدید">
+<button onclick="changePassword()">ذخیره رمز</button>
+
+</div>
+</section>
+
+</main>
+
+<footer>
+بچه‌های فاطمه
+<p>پایگاه فرهنگی و رسانه‌ای</p>
+</footer>
+
+<script>
+let adminPassword=localStorage.getItem("adminPassword")||"1234";
+
+function getData(key){
+ return JSON.parse(localStorage.getItem(key)||"[]");
+}
+
+function saveData(key,data){
+ localStorage.setItem(key,JSON.stringify(data));
+}
+
+function showList(key,id,field){
+ const list=getData(key);
+ const box=document.getElementById(id);
+ box.innerHTML="";
+ if(!list.length){
+ box.textContent="موردی ثبت نشده است.";
+ return;
+ }
+ list.forEach(item=>{
+ const div=document.createElement("div");
+ div.className="post";
+ const h=document.createElement("h3");
+ h.textContent=item.title||"";
+ const p=document.createElement("p");
+ p.textContent=item.text||"";
+ div.append(h,p);
+ box.appendChild(div);
+ });
+}
+
+document.getElementById("suggestForm")
+.addEventListener("submit",function(e){
+ e.preventDefault();
+ const value=document.getElementById("suggestion").value.trim();
+ if(!value)return;
+ const items=getData("suggestions");
+ items.push({text:value});
+ saveData("suggestions",items);
+ document.getElementById("suggestion").value="";
+ document.getElementById("suggestMessage").textContent=
+ "پیشنهاد شما ثبت شد. سپاس از همراهی شما.";
+});
+
+function login(){
+ if(document.getElementById("password").value===adminPassword){
+ document.getElementById("panel").classList.remove("hidden");
+ showSuggestions();
+ alert("ورود موفق بود");
+ }else{
+ alert("رمز اشتباه است");
+ }
+}
+
+function showSuggestions(){
+ const list=getData("suggestions");
+ const box=document.getElementById("suggestionList");
+ box.innerHTML="";
+ if(!list.length){
+ box.textContent="پیشنهادی ثبت نشده است.";
+ return;
+ }
+ list.forEach((item,i)=>{
+ const div=document.createElement("div");
+ div.className="post";
+ const p=document.createElement("p");
+ p.textContent=item.text;
+ const b=document.createElement("button");
+ b.textContent="حذف";
+ b.onclick=()=>{
+ list.splice(i,1);
+ saveData("suggestions",list);
+ showSuggestions();
+ };
+ div.append(p,b);
+ box.appendChild(div);
+ });
+}
+
+function addNews(){
+ const title=document.getElementById("newsTitle").value.trim();
+ const text=document.getElementById("newsText").value.trim();
+ if(!title||!text)return alert("اطلاعات را کامل کنید");
+ const items=getData("news");
+ items.push({title,text});
+ saveData("news",items);
+ showList("news","newsList");
+ alert("خبر ثبت شد");
+}
+
+function addProgram(){
+ const title=document.getElementById("programTitle").value.trim();
+ const text=document.getElementById("programText").value.trim();
+ if(!title||!text)return alert("اطلاعات را کامل کنید");
+ const items=getData("programs");
+ items.push({title,text});
+ saveData("programs",items);
+ showList("programs","programList");
+ alert("برنامه ثبت شد");
+}
+
+function changeBackground(){
+ document.body.style.background=
+ document.getElementById("bgColor").value;
+ localStorage.setItem("pageColor",
+ document.getElementById("bgColor").value);
+}
+
+function changePassword(){
+ const p=document.getElementById("newPassword").value;
+ if(p.length<4)return alert("رمز حداقل ۴ حرف باشد");
+ adminPassword=p;
+ localStorage.setItem("adminPassword",p);
+ alert("رمز تغییر کرد");
+}
+
+window.onload=()=>{
+ showList("news","newsList");
+ showList("programs","programList");
+ const color=localStorage.getItem("pageColor");
+ if(color)document.body.style.background=color;
+};
+</script>
+
+</body>
+</html>
